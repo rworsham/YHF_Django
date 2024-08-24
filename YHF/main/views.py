@@ -41,3 +41,7 @@ Email: {contact_form.cleaned_data['email']}
     }
     return render(request, 'contact.html', context)
 
+
+def info(request):
+    context = {}
+    return render(request, 'info.html', context)

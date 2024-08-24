@@ -12,7 +12,7 @@ class ContactForm(forms.Form):
     contact_reason = forms.ChoiceField(
         label="Subject",
         choices=[
-            ("Job Opportunity", "Job Opportunity"),
+            ("Quote", "Quote"),
             ("Information Request", "Information Request"),
             ("Other", "Other")
         ],
