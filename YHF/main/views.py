@@ -9,18 +9,17 @@ def home(request):
     return render(request, 'home.html', context=context)
 
 def contact(request):
-    context = {"contact_form": ContactForm(), 'msg_sent':False}
+    msg_sent = False
     if request.method == "POST":
         contact_form = ContactForm(request.POST)
-        if "contact_form" in request.POST:
-            if contact_form.is_valid():
-                message = f"""
+        if contact_form.is_valid():
+            message = f"""
 Name: {contact_form.cleaned_data['name']}
 Phone: {contact_form.cleaned_data['phone']}
 Email: {contact_form.cleaned_data['email']}
 
 {contact_form.cleaned_data['message']}
-                        """
+            """
             email = EmailMessage(
                 subject=contact_form.cleaned_data['contact_reason'],
                 body=message,
@@ -33,11 +32,12 @@ Email: {contact_form.cleaned_data['email']}
             except Exception as e:
                 msg_sent = False
                 print(f"Error sending email: {e}")
-
-            return render(request, 'contact.html', context=context)
-        else:
-            contact_form = ContactForm()
-            return render(request, 'contact.html',context=context)
     else:
         contact_form = ContactForm()
-        return render(request, 'contact.html', context=context)
+
+    context = {
+        "contact_form": contact_form,
+        "msg_sent": msg_sent
+    }
+    return render(request, 'contact.html', context)
+
